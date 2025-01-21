@@ -1,0 +1,79 @@
+classDiagram
+    class MobileApp {
+        -FlutterMaterialDesign ui
+        -Riverpod stateManager
+        -FirebaseSDK firebaseClient
+        +createStorySession()
+        +joinSession()
+        +submitContribution()
+        +exportStory()
+    }
+
+    class StorySession {
+        -String sessionId
+        -Array~String~ turnOrder
+        -Array~Contribution~ contributions
+        -Int maxPlayers
+        -Int timePerTurn
+        +addContribution()
+        +updateTurn()
+        +compileStory()
+    }
+
+    class UserProfile {
+        -String userId
+        -String username
+        -String avatar
+        -Array~String~ createdStories
+        +updateProfile()
+        +getStoriesList()
+    }
+
+    class Contribution {
+        -String userId
+        -String content
+        -DateTime timestamp
+        -Boolean isAIPrompt
+        +validate()
+        +save()
+    }
+
+    class FirebaseServices {
+        -Authentication auth
+        -Firestore database
+        -Storage fileStorage
+        -CloudFunctions serverLogic
+        -CloudMessaging notifications
+        +handleAuthentication()
+        +syncData()
+        +triggerServerFunction()
+    }
+
+    class AnalyticsSystem {
+        -FirebaseAnalytics tracker
+        -Crashlytics errorReporting
+        +trackEvent()
+        +reportCrash()
+    }
+
+    class MonetizationSystem {
+        -RevenueCat subscriptionManager
+        -AdMob adService
+        +handlePurchase()
+        +showAd()
+    }
+
+    class AIService {
+        -OpenAI gpt4
+        +generatePrompt()
+        +suggestPlotTwist()
+    }
+
+    MobileApp --> FirebaseServices : Uses
+    MobileApp --> StorySession : Manages
+    MobileApp --> UserProfile : Contains
+    StorySession --> Contribution : Has many
+    FirebaseServices --> AnalyticsSystem : Integrates
+    MobileApp --> MonetizationSystem : Implements
+    StorySession --> AIService : Optional use
+    UserProfile --> StorySession : Participates in
